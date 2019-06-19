@@ -1,18 +1,20 @@
 const APIUtil = {
     
-    followUser: id => {
-        $.ajax({
-            url: `/users/${id}/follow`,
-            method: "POST"
-        })
-    },
+    // ????? use () after fat arrow?!
 
-    unfollowUser: id => {
+    followUser: id => (
         $.ajax({
             url: `/users/${id}/follow`,
-            method: "DELETE"
+            method: 'POST',
         })
-    }
+    ),
+
+    unfollowUser: id => (
+        $.ajax({
+            url: `/users/${id}/follow`,
+            method: 'DELETE',
+        })
+    )
 }
 
 module.exports = APIUtil;

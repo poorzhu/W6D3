@@ -95,19 +95,21 @@
 
 const APIUtil = {
     
-    followUser: id => {
-        $.ajax({
-            url: `/users/${id}/follow`,
-            method: "POST"
-        })
-    },
+    // ????? use () after fat arrow?!
 
-    unfollowUser: id => {
+    followUser: id => (
         $.ajax({
             url: `/users/${id}/follow`,
-            method: "DELETE"
+            method: 'POST',
         })
-    }
+    ),
+
+    unfollowUser: id => (
+        $.ajax({
+            url: `/users/${id}/follow`,
+            method: 'DELETE',
+        })
+    )
 }
 
 module.exports = APIUtil;
@@ -138,34 +140,37 @@ class FollowToggle {
         if (this.followState === "unfollowed") {
             // this should make the button text change?
             this.$el.html('Follow!')
-        } else {
+            this.$el.prop("disabled", false)
+        } else if (this.followState === "followed") {
             this.$el.html('Unfollow!')
+            this.$el.prop("disabled", false)
+        } else if (this.followState === "following" || this.followState === "unfollowing" ) {
+            this.$el.prop("disabled", true)
         }
     }
 
     handleClick(event) {
-
         // prevents defaults of w/e the event is. mostly forms.
-
         event.preventDefault();        
+        const followToggle = this;
+
+        // is AJAX making a request from client that hits Rails which sends info back to client
+        
+        // debugger
 
         if (this.followState === "unfollowed"){
-
-            // is AJAX making a request from client that hits Rails which sends info back to client
-            
-            // DO I NEED A PROMISE FOR A THEN REQUEST?
-
-            const followRequest = new Promise(APIUtil.followUser(this.userID));
-            followRequest.then( () => {
-                this.followState = "followed";
-                this.render();
+            this.followState = 'following'
+            this.render();
+            APIUtil.followUser(this.userId).then(() => {
+                followToggle.followState = "followed";
+                followToggle.render();
             });
         } else {
-
-            const unfollowRequest = new Promise(APIUtil.unfollowUser(this.userID));
-            followRequest.then(() => {
-                this.followState = "unfollowed";
-                this.render();
+            this.followState = 'unfollowing'
+            this.render();
+            APIUtil.unfollowUser(this.userId).then(() => {
+                followToggle.followState = "unfollowed";
+                followToggle.render();
             });            
         }
     }
