@@ -6,6 +6,7 @@
     "webpack": "webpack --mode=development --watch"
   },
   "dependencies": {
+    "eslint": "^5.16.0",
     "lodash": "^4.17.4",
     "webpack": "^4.6.0"
   },

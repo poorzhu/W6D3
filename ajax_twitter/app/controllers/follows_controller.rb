@@ -8,8 +8,8 @@ class FollowsController < ApplicationController
     @follow = current_user.out_follows.create!(followee_id: params[:user_id])
 
     respond_to do |format|
-      format.html { redirect_to request.referrer }
       format.json { render json: @follow }
+      format.html { redirect_to request.referrer }
     end
   end
 
@@ -21,8 +21,8 @@ class FollowsController < ApplicationController
     @follow.destroy!
 
     respond_to do |format|
-      format.html { redirect_to request.referrer }
       format.json { render json: @follow }
+      format.html { redirect_to request.referrer }
     end
   end
 end
