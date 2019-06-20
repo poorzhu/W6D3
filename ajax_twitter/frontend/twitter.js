@@ -6,4 +6,5 @@ $(() => {
     // ??? button -> follow-toggle
 
     $('button.follow-toggle').each( (index, button) => { new FollowToggle(button) });
+    $('nav.users-search').each( (index, button) => { new UsersSearch(button) });
 });

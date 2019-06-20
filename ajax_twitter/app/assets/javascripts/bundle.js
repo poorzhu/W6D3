@@ -100,6 +100,7 @@ const APIUtil = {
     followUser: id => (
         $.ajax({
             url: `/users/${id}/follow`,
+            dataType: 'json',
             method: 'POST',
         })
     ),
@@ -107,8 +108,20 @@ const APIUtil = {
     unfollowUser: id => (
         $.ajax({
             url: `/users/${id}/follow`,
+            dataType: 'json',
             method: 'DELETE',
         })
+    ),
+
+    searchUsers: (queryVal) => (
+        $.ajax({
+            url: `/users/search`,
+            dataType: 'json',
+            method: 'GET',
+
+            // what is query?
+            data:  { query }
+        })      
     )
 }
 
@@ -195,6 +208,7 @@ $(() => {
     // ??? button -> follow-toggle
 
     $('button.follow-toggle').each( (index, button) => { new FollowToggle(button) });
+    $('nav.users-search').each( (index, button) => { new UsersSearch(button) });
 });
 
 /***/ })
